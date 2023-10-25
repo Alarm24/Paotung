@@ -1,12 +1,13 @@
 import "./App.css";
-import OutlinedCard from "./Component/CardComponent.js";
+// import OutlinedCard from "./Component/CardComponent.js";
+import Login from "./Login";
 
 function App() {
-  return <OutlinedCard />;
-}
-
-function Login() {
-  return <div></div>;
+  return (
+    <>
+      <Login />
+    </>
+  );
 }
 
 export default App;

@@ -11,8 +11,8 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:5050/login", {
-        username,
-        password,
+        user: username,
+        pass: password,
       });
       console.log(response.data);
     } catch (error) {
