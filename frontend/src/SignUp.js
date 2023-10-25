@@ -1,7 +1,10 @@
 import React from "react";
 
-const SignUp = () => {
-  return <h1>SignUp</h1>;
-};
+function SignUp() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit=
+}
 
 export default SignUp;
