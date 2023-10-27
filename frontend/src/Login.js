@@ -4,6 +4,7 @@ import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import CheckSessionLogin from "./CheckSessionLogin";
+import { useUser } from "./UserContext";
 
 export const ApiDataContext = createContext();
 
@@ -11,6 +12,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   axios.defaults.withCredentials = true;
 
@@ -25,6 +27,7 @@ function Login() {
       })
       .then((res) => {
         console.log(res);
+        setUser({ bulb: 1000 });
         navigate("/");
       })
       .catch((err) => {
