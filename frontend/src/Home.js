@@ -12,8 +12,7 @@ function Home() {
     axios
       .get("http://localhost:5050/")
       .then((res) => {
-        if (res.data.valid) {
-          setName(res.data.username);
+        if (res.data.status) {
         } else {
           navigate("/login");
         }

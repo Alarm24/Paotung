@@ -13,9 +13,9 @@ function Login() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5050")
+      .get("http://localhost:5050/")
       .then((res) => {
-        if (res.data.valid) {
+        if (res.data.status) {
           navigate("/");
         } else {
           navigate("/login");
