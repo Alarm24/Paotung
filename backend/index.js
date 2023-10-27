@@ -80,6 +80,21 @@ app.get('/restaurants',async (req,res)=>{
     res.send(arr)
     
 })
+
+app.post('/menus',async (req,res)=>{
+
+    const citiesRef = db.collection('restaurants');
+    const target = await req.body.restaurant_name
+    console.log(target)
+    const snapshot = await citiesRef.where('restaurant_name', '==', target).get();
+    const arr = []
+    await snapshot.forEach(doc => {
+      arr.push(doc.data())
+    
+    });
+    console.log(arr[0].menu)
+    await res.send(arr[0].menu)
+})
 app.post('/login',(req,res)=>{
 
     console.log(req.body.user)
