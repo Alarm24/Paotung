@@ -67,6 +67,19 @@ app.get('/',(req,res)=>{
     
 });
 
+
+app.get('/restaurants',async (req,res)=>{
+
+    const citiesRef = db.collection('restaurants');
+    const snapshot = await citiesRef.get();
+    const arr = []
+    await snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+      arr.push( doc.data())
+    });
+    res.send(arr)
+    
+})
 app.post('/login',(req,res)=>{
 
     console.log(req.body.user)
