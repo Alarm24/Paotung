@@ -8,7 +8,7 @@ function Home() {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:5050")
+      .get("http://localhost:5050/")
       .then((res) => {
         if (res.data.valid) {
           setName(res.data.username);
