@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function Restaurant() {
+function Restaurants() {
   const [restaurant, setRestaurant] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5050/restaurant")
+      .get("http://localhost:5050/restaurants")
       .then((res) => {
         setRestaurant(res.data); // Set the restaurant data using the setter
       })
@@ -23,3 +23,4 @@ function Restaurant() {
     </>
   );
 }
+export default Restaurants;
