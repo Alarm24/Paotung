@@ -17,7 +17,7 @@ function Restaurants() {
     <>
       <div>
         {restaurant.map((item) => (
-          <div key={item.id}>{item.name}</div>
+          <div key={item.id}>{item.restaurant_name}</div>
         ))}
       </div>
     </>

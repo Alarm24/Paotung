@@ -2,6 +2,7 @@ import "./App.css";
 import Home from "./Home";
 // import OutlinedCard from "./Component/CardComponent.js";
 import Login from "./Login";
+import Menu from "./Menu";
 import Restaurants from "./Restaurants";
 import SignUp from "./SignUp";
 import {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/restaurants" element={<Restaurants />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
       </Routes>
     </BrowserRouter>
   );
