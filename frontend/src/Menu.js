@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 function Menu() {
+  axios.defaults.withCredentials = true;
   const [menu, setMenu] = useState([]);
   useEffect(() => {
     axios

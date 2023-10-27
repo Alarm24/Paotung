@@ -42,16 +42,8 @@ function Login() {
       });
   };
 
-  const handleget = async (e) => {
-    e.preventDefault();
-    axios
-    .post("http://localhost:5050/menus", {restaurant_name:'starbar'}).then(res=>console.log(res))
-  };
-
-
   return (
     <div>
-      <button onClick={handleget}>getna</button>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
