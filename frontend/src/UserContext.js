@@ -1,12 +1,28 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import CheckSessionUser from "./CheckSessionUser";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Get user data from localStorage when the component mounts
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      return JSON.parse(savedUser);
+    }
+    return null;
+  });
 
   CheckSessionUser();
+
+  useEffect(() => {
+    // Save user data to localStorage whenever it changes
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -15,4 +31,12 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export const useUser = () => useContext(UserContext);
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+};
+
+//กรณี จ่ายเงินละเด้งมายังไม่ได้คิด
