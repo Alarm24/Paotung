@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CheckSessionUser from "./CheckSessionUser";
 
 function Restaurants() {
+  CheckSessionUser();
   const [restaurant, setRestaurant] = useState([]);
   useEffect(() => {
     axios

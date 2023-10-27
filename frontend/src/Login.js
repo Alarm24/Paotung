@@ -1,8 +1,11 @@
 // src/components/Login.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import CheckSessionLogin from "./CheckSessionLogin";
+
+export const ApiDataContext = createContext();
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -11,19 +14,7 @@ function Login() {
 
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5050/")
-      .then((res) => {
-        if (res.data.status) {
-          navigate("/");
-        } else {
-          navigate("/login");
-        }
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  CheckSessionLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
