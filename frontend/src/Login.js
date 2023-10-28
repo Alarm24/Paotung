@@ -1,29 +1,22 @@
 // src/components/Login.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import CheckSessionLogin from "./CheckSessionLogin";
+import { useUser } from "./UserContext";
+
+export const ApiDataContext = createContext();
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5050/")
-      .then((res) => {
-        if (res.data.status) {
-          navigate("/");
-        } else {
-          navigate("/login");
-        }
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  CheckSessionLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +27,7 @@ function Login() {
       })
       .then((res) => {
         console.log(res);
+        setUser({ bulb: 1000 });
         navigate("/");
       })
       .catch((err) => {
@@ -42,16 +36,8 @@ function Login() {
       });
   };
 
-  const handleget = async (e) => {
-    e.preventDefault();
-    axios
-    .post("http://localhost:5050/menus", {restaurant_name:'starbar'}).then(res=>console.log(res))
-  };
-
-
   return (
     <div>
-      <button onClick={handleget}>getna</button>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
