@@ -46,6 +46,7 @@ redisClient.on('connect', function (err) {
 
 let redstore = new RedisStore({ client: redisClient })
 //Configure session middleware
+
 app.use(session({
     secret: 'secret$%^134',
     resave: false,
@@ -53,13 +54,21 @@ app.use(session({
     cookie: {
         secure: false, // if true only transmit cookie over https
         httpOnly: false, // if true prevent client side JS from reading the cookie 
-        maxAge: 60000 // session max age in miliseconds
+        maxAge: 600000 // session max age in miliseconds
     }
 }))
 
-app.get('/',(req,res)=>{
+app.get('/',async(req,res)=>{
     if(req.session.login == true){
-        res.send({'status':true})
+        const cusRef = db.collection('customers')
+        const snapshot = await cusRef.where('username', '==', req.session.user).where('password', '==', req.session.pass).get();
+        let user = ''
+        let bulb = 0;
+        snapshot.forEach(doc => {
+            user = doc.data().username
+            bulb = doc.data().bulb;
+          });
+        res.send({'status':true,data:{user:user, bulb:bulb,login_status : true}}) 
     }else{
         res.send({'status':false})
     }
@@ -95,13 +104,29 @@ app.post('/menus',async (req,res)=>{
     console.log(arr[0].menu)
     await res.send(arr[0].menu)
 })
-app.post('/login',(req,res)=>{
+app.get('/home',(req,res)=>{
+    console.log(req.session)
+})
+app.post('/login',async (req,res)=>{
 
     console.log(req.body.user)
-    req.session.user = req.body.user 
-    req.session.pass = req.body.pass
-    req.session.login = true;
-    res.send(200) 
+    const cusRef = db.collection('customers')
+    const snapshot = await cusRef.where('username', '==', req.body.user).where('password', '==', req.body.pass).get();
+    console.log(snapshot.empty)
+    if(snapshot.empty){
+        res.send(400);
+
+    }else{
+        snapshot.forEach(doc => {
+            req.session.user = doc.data().username
+            req.session.pass = doc.data().password
+            req.session.bulb = doc.data().bulb;
+            req.session.login = true
+          });
+        res.send({username:req.session.user, bulb:req.session.bulb,login_status : true}) 
+    }
+
+
 
 })
 

@@ -32,12 +32,13 @@ function Login() {
         user: username,
         pass: password,
       })
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
-        navigate("/");
+        navigate("/")
       })
       .catch((err) => {
         console.log(err);
+        window.alert("wrong username or answer");
         navigate("/login");
       });
   };
