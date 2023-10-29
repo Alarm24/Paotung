@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function Payment({ detail }) {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
+  const home = useNavigate();
   const [money, setMoney] = useState(10000);
   const [dataUser, setDataUser] = useState("");
   const [email, setEmail] = useState("");
@@ -84,6 +85,7 @@ export default function Payment({ detail }) {
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+    home(`/restaurants/${details.restaurant_name}`);
   };
   return (
     <div>

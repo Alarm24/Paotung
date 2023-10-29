@@ -6,6 +6,9 @@ import { useUser } from "./UserContext";
 
 function Home() {
   const [dataUser, setDataUser] = useState("");
+  const [money, setMoney] = useState(10000);
+  const [token, setToken] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:5050/")
@@ -14,10 +17,23 @@ function Home() {
           navigate("/login");
         } else {
           setDataUser(res.data.value);
+          setToken(res.data.value.token);
         }
       })
       .catch((err) => console.log(err));
   }, []);
+  console.log(token);
+  axios
+    .get("https://paotooong.thinc.in.th/v1/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Use the token directly from the constant.
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setMoney(res.data.user.money);
+    })
+    .catch((err) => console.log(err));
   // Data User
   console.log(dataUser);
 
@@ -30,8 +46,8 @@ function Home() {
 
   return (
     <div>
-      <h1>Hi</h1>
-      <h1>{user?.bulb}</h1>
+      <h1>Hi {dataUser.firstName}</h1>
+      <h1>{money}</h1>
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>
       <button>สุ่ม</button>
     </div>
