@@ -8,6 +8,7 @@ import Testpayment from "./Testpayment";
 import RestaurantDetail from "./RestaurantDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
+import Payment from "./Payment";
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +19,8 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/restaurants/:id" element={<RestaurantDetail />} />
-          <Route path='/Testpayment' element = {<Testpayment/>}/>
+          <Route path="/Testpayment" element={<Testpayment />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>
