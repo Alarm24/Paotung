@@ -18,12 +18,5 @@ module.exports = function (app) {
     })
   );
 
-  app.use(
-    "/v1/auth/me",
-    createProxyMiddleware({
-      target: "https://paotooong.thinc.in.th",
-      changeOrigin: true,
-      secure: false,
-    })
-  );
+  
 };

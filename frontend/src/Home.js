@@ -11,7 +11,7 @@ function Home() {
   }
   const { user } = useUser();
   axios.defaults.withCredentials = true;
-  CheckSessionUser();
+
   return (
     <div>
       <h1>Hi</h1>

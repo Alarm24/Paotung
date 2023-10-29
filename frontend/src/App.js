@@ -4,6 +4,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Restaurants from "./Restaurants";
 import SignUp from "./SignUp";
+import Testpayment from "./Testpayment";
 import RestaurantDetail from "./RestaurantDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/restaurants/:id" element={<RestaurantDetail />} />
+          <Route path='/Testpayment' element = {<Testpayment/>}/>
         </Routes>
       </UserProvider>
     </BrowserRouter>

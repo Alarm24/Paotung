@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CheckSessionUser from "./CheckSessionUser";
 import { useNavigate, useParams } from "react-router-dom";
 import MenuCard from "./Component/MenuCard";
-
+import BasicModal from "./Component/Basicmodal";
 function RestaurantDetail() {
   const restaurant = useNavigate();
   function handleClickRestaurant() {
@@ -32,7 +32,7 @@ function RestaurantDetail() {
       <h1>{id}</h1>
       {menu.map((item) => (
         <div key={item.menu_name}>
-          <MenuCard menus={item} />
+          <BasicModal menus={item} />
         </div>
       ))}
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>

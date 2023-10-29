@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -17,22 +17,18 @@ const style = {
 };
 function MenuCard({ menus }) {
   const [open, setOpen] = useState(false);
-  const handleOpen = (e) => {
-    e.stopPropagation();
-    setOpen(true);
-  };
-
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   //   const history = useNavigate();
-
+  useEffect(()=>{console.log(open)})
   return (
     <div>
       <div
         onClick={handleOpen}
         style={{
           cursor: "pointer",
-          border: "1px solid black",
+          border: "20px solid black",
           margin: "10px",
           padding: "10px",
         }}
@@ -43,9 +39,10 @@ function MenuCard({ menus }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={style} >
+            <button onClick={handleClose} >dfd</button>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
+              Text in a s
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.

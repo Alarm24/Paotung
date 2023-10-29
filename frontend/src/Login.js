@@ -23,14 +23,14 @@ function Login() {
     axios
       .post("http://localhost:5050/login", {
         email: email,
-        pass: password,
+        password: password,
       })
       .then((res) => {
         console.log(res);
-        setUser({ bulb: 1000 });
         navigate("/");
       })
       .catch((err) => {
+        window.alert('wrong username or answer')
         console.log(err);
         navigate("/login");
       });
@@ -39,6 +39,8 @@ function Login() {
   return (
     <div>
       <h2>Login</h2>
+      <Link to = '/testpayment'><button>testpay</button></Link>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
