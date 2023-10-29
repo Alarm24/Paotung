@@ -3,20 +3,39 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [token, setToken] = useState("");
+  const [id, setId] = useState("");
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5050/signup", {
-        user: username,
-        pass: password,
+      .post("/v1/auth/register", {
+        email: email,
+        password: password,
+        firstName: firstname,
+        familyName: lastname,
       })
       .then((res) => {
-        console.log(res);
-        navigate("/");
+        setToken(res.data.token.accessToken);
+        axios
+          .get("/v1/auth/me", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((resData) => {
+            console.log(resData);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err);
@@ -30,15 +49,27 @@ function SignUp() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="firstname"
+          placeholder="firstname"
+          value={firstname}
+          onChange={(e) => setFirstname(e.target.value)}
+        />
+        <input
+          type="lastname"
+          placeholder="lastname"
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
         />
         <button type="submit">SignUp</button>
       </form>

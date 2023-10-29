@@ -1,14 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CheckSessionUser from "./CheckSessionUser";
-function Menu() {
+import { useNavigate, useParams } from "react-router-dom";
+
+function RestaurantDetail() {
+  const restaurant = useNavigate();
+  function handleClickRestaurant() {
+    restaurant("/restaurants");
+  }
+  let { id } = useParams();
+
   CheckSessionUser();
   axios.defaults.withCredentials = true;
   const [menu, setMenu] = useState([]);
   useEffect(() => {
     axios
       .post("http://localhost:5050/menus", {
-        restaurant_name: "starbar",
+        restaurant_name: id,
       })
       .then((res) => {
         setMenu(res.data); // Set the restaurant data using the setter
@@ -20,12 +28,12 @@ function Menu() {
 
   return (
     <>
-      <div>
-        {menu.map((item) => (
-          <div key={item.id}>{item.menu_name}</div>
-        ))}
-      </div>
+      <h1>{id}</h1>
+      {menu.map((item) => (
+        <div key={item.menu_id}>{item.menu_name}</div>
+      ))}
+      <button onClick={handleClickRestaurant}>โรงอาหาร</button>
     </>
   );
 }
-export default Menu;
+export default RestaurantDetail;

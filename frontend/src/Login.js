@@ -9,7 +9,7 @@ import { useUser } from "./UserContext";
 export const ApiDataContext = createContext();
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUser } = useUser();
@@ -22,7 +22,7 @@ function Login() {
     e.preventDefault();
     axios
       .post("http://localhost:5050/login", {
-        user: username,
+        email: email,
         pass: password,
       })
       .then((res) => {
@@ -42,9 +42,9 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
