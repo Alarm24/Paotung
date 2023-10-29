@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CheckSessionUser from "./CheckSessionUser";
 import { useNavigate, useParams } from "react-router-dom";
+import MenuCard from "./Component/MenuCard";
 
 function RestaurantDetail() {
   const restaurant = useNavigate();
@@ -30,7 +31,9 @@ function RestaurantDetail() {
     <>
       <h1>{id}</h1>
       {menu.map((item) => (
-        <div key={item.menu_id}>{item.menu_name}</div>
+        <div key={item.menu_name}>
+          <MenuCard menus={item} />
+        </div>
       ))}
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>
     </>
