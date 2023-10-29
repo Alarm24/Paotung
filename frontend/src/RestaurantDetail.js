@@ -29,6 +29,7 @@ function RestaurantDetail() {
   const userData = CheckSessionUser();
   axios.defaults.withCredentials = true;
   const [menu, setMenu] = useState([]);
+  const [restaurantID, setRestaurantID] = useState("");
   useEffect(() => {
     axios
       .post("http://localhost:5050/menus", {
@@ -36,12 +37,14 @@ function RestaurantDetail() {
       })
       .then((res) => {
         setMenu(res.data.menu); // Set the restaurant data using the setter
+        setRestaurantID(res.data.id);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
       });
   }, []);
   console.log(menu);
+  console.log(restaurantID);
   //   console.log(menu.menu);
   //   const menulist = menu.menu;
   //   console.log(menulist);
@@ -49,12 +52,15 @@ function RestaurantDetail() {
   return (
     <>
       <h1>{id}</h1>
-      {menu.length?<>      {menu.map((item) => (
-        <div >
-          <MenuCard menus={item} />
+      {menu.map((item) => (
+        <div key={item.menu_name}>
+          <MenuCard
+            menus={item}
+            restaurantID={restaurantID}
+            restaurant_name={id}
+          />
         </div>
-      ))}</>:<>hello2</>}
-
+      ))}
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>
     </>
   );
