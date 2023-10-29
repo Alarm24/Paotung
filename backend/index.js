@@ -33,7 +33,7 @@ app.use(
     cookie: {
       secure: false, // if true only transmit cookie over https
       httpOnly: false, // if true prevent client side JS from reading the cookie
-      maxAge: 600000, // session max age in miliseconds
+      maxAge: 600000000, // session max age in miliseconds
     },
   })
 );
@@ -49,7 +49,7 @@ app.get("/", async (req, res) => {
     await snapshot.forEach((doc) => {
       goingsend = {
         id: doc.data().id,
-        username: doc.data().username,
+        email: doc.data().email,
         firstName: doc.data().firstName,
         token: doc.data().token,
       };
@@ -119,6 +119,24 @@ app.post("/login", async (req, res) => {
     });
     res.send({ username: req.session.email, login_status: true });
   }
+});
+
+app.post("/history", async (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;
+  const restaurant_name = req.body.restaurant_name;
+  const menu_name = req.body.menu_name;
+  const totalPrice = req.body.totalPrice;
+  const time = req.body.time;
+  const cusRef = db.collection("customers").doc(email);
+  const unionRes = await cusRef.update({
+    menu_hist: FieldValue.arrayUnion({
+      restaurant_name: restaurant_name,
+      menu_name: menu_name,
+      totalPrice: totalPrice,
+      time: time,
+    }),
+  });
 });
 
 app.listen(5050, () => {
