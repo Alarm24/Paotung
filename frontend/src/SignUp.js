@@ -49,7 +49,6 @@ function SignUp() {
   return (
     <div>
       <h2>SignUp</h2>
-      <Link to = '/testpayment'><button>testpay</button></Link>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

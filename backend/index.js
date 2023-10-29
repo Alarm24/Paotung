@@ -80,8 +80,8 @@ app.post('/menus',async (req,res)=>{
       arr.push(doc.data())
     
     });
-    console.log(arr[0].menu)
-    await res.send(arr[0].menu)
+    console.log(arr[0])
+    await res.send(arr[0])
 })
 app.get('/home',(req,res)=>{
     console.log(req.session)
