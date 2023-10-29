@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/restaurants" element={<Restaurants />} />
-          <Route path="/restaurants/:id" component={<RestaurantDetail />} />
+          <Route path="/restaurants/:id" element={<RestaurantDetail />} />
           <Route path="/menu" element={<Menu />}></Route>
         </Routes>
       </UserProvider>
