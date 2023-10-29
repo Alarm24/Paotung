@@ -117,10 +117,9 @@ app.post("/login", async (req, res) => {
       req.session.id = doc.data().id;
       req.session.login = true;
     });
-<<<<<<< HEAD
     res.send(arr)
     
-})
+}})
 
 app.post('/menus',async (req,res)=>{
 
@@ -169,12 +168,3 @@ app.post('/login',async (req,res)=>{
 
 
 app.listen(5050,()=>{console.log('server has started')})
-=======
-    res.send({ username: req.session.email, login_status: true });
-  }
-});
->>>>>>> 32ba34156d8df5aad4f143b6b1dc0e370f914991
-
-app.listen(5050, () => {
-  console.log("server has started");
-});
