@@ -44,12 +44,16 @@ function Home() {
   const { user } = useUser();
   axios.defaults.withCredentials = true;
 
+  function handleClickGacha() {
+    navigate("/gacha");
+  }
+
   return (
     <div>
       <h1>Hi {dataUser.firstName}</h1>
       <h1>{money}</h1>
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>
-      <button>สุ่ม</button>
+      <button onClick={handleClickGacha}>สุ่ม</button>
     </div>
   );
 }
