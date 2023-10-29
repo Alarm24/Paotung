@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CheckSessionUser from "./CheckSessionUser";
 import RestaurantCard from "./Component/RestaurantCard";
+import { useNavigate } from "react-router-dom";
 
 function Restaurants() {
   CheckSessionUser();
@@ -16,12 +17,19 @@ function Restaurants() {
         console.error("Error fetching data: ", error);
       });
   }, []);
+
+  const home = useNavigate();
+  function handleClickHome() {
+    home("/");
+  }
   return (
     <>
       <div>
+        <h1>I-Canteen</h1>
         {restaurant.map((restaurant) => (
-          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+          <RestaurantCard key={restaurant.name} restaurant={restaurant} />
         ))}
+        <button onClick={handleClickHome}>Home</button>
       </div>
     </>
   );

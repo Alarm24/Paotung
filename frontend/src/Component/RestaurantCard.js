@@ -5,7 +5,7 @@ function RestaurantCard({ restaurant }) {
   const history = useNavigate();
 
   const handleClick = () => {
-    history.push(`/restaurant/${restaurant.id}`);
+    history(`/restaurants/${restaurant.restaurant_name}`);
   };
 
   return (
