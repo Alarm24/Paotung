@@ -5,13 +5,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import MenuCard from "./Component/MenuCard";
 import BasicModal from "./Component/Basicmodal";
 function RestaurantDetail() {
+  const navigate = useNavigate();
+  const [dataUser, setDataUser] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5050/")
+      .then((res) => {
+        if (!res.data.status) {
+          navigate("/login");
+        } else {
+          setDataUser(res.data.value);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  // Data User
   const restaurant = useNavigate();
   function handleClickRestaurant() {
     restaurant("/restaurants");
   }
   let { id } = useParams();
 
-  CheckSessionUser();
+  const userData = CheckSessionUser();
   axios.defaults.withCredentials = true;
   const [menu, setMenu] = useState([]);
   useEffect(() => {
@@ -20,19 +35,23 @@ function RestaurantDetail() {
         restaurant_name: id,
       })
       .then((res) => {
-        setMenu(res.data); // Set the restaurant data using the setter
+        setMenu(res.data.menu); // Set the restaurant data using the setter
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
       });
   }, []);
+  console.log(menu);
+  //   console.log(menu.menu);
+  //   const menulist = menu.menu;
+  //   console.log(menulist);
 
   return (
     <>
       <h1>{id}</h1>
       {menu.map((item) => (
         <div key={item.menu_name}>
-          <BasicModal menus={item} />
+          <MenuCard menus={item} />
         </div>
       ))}
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>

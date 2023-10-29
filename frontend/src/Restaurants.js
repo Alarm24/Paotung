@@ -5,7 +5,21 @@ import RestaurantCard from "./Component/RestaurantCard";
 import { useNavigate } from "react-router-dom";
 
 function Restaurants() {
-  CheckSessionUser();
+  const navigate = useNavigate();
+  const [dataUser, setDataUser] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5050/")
+      .then((res) => {
+        if (!res.data.status) {
+          navigate("/login");
+        } else {
+          setDataUser(res.data.value);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  // Data User
   const [restaurant, setRestaurant] = useState([]);
 
   useEffect(() => {
@@ -18,8 +32,6 @@ function Restaurants() {
         console.error("Error fetching data: ", error);
       });
   }, []);
-
-  const navigate = useNavigate();
 
   const goToRestaurantDetail = (id) => {
     navigate(`/restaurants/${id}`);

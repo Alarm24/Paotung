@@ -1,10 +1,10 @@
-const http = require('http');
-const express = require('express')
-const cors = require('cors')
-const session = require('express-session');
-var bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const {db} = require('./db.js')
+const http = require("http");
+const express = require("express");
+const cors = require("cors");
+const session = require("express-session");
+var bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const { db } = require("./db.js");
 
 var app = express();
 
@@ -23,48 +23,101 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // enable this if you run behind a proxy (e.g. nginx)
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
-
-app.use(session({
-    secret: 'secret$%^134',
+app.use(
+  session({
+    secret: "secret$%^134",
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // if true only transmit cookie over https
-        httpOnly: false, // if true prevent client side JS from reading the cookie 
-        maxAge: 600000 // session max age in miliseconds
-    }
-}))
+      secure: false, // if true only transmit cookie over https
+      httpOnly: false, // if true prevent client side JS from reading the cookie
+      maxAge: 600000, // session max age in miliseconds
+    },
+  })
+);
 
-
-app.get('/',async(req,res)=>{
-    if(req.session.login == true){
-      const cusRef = db.collection('customers')
-      const snapshot = await cusRef.where('email', '==', req.session.email).where('password', '==', req.session.password).get();
-      let goingsend = {}
-      await snapshot.forEach(doc => {
-        goingsend = {id:doc.data().id , username:doc.data().username ,firstName:doc.data().firstName , token:doc.data().token}
-
-      });
-        res.send({'status':true,value:goingsend}) 
-    }else{
-        res.send({'status':false})
-    }
-
-    
+app.get("/", async (req, res) => {
+  if (req.session.login == true) {
+    const cusRef = db.collection("customers");
+    const snapshot = await cusRef
+      .where("email", "==", req.session.email)
+      .where("password", "==", req.session.password)
+      .get();
+    let goingsend = {};
+    await snapshot.forEach((doc) => {
+      goingsend = {
+        id: doc.data().id,
+        username: doc.data().username,
+        firstName: doc.data().firstName,
+        token: doc.data().token,
+      };
+    });
+    res.send({ status: true, value: goingsend });
+  } else {
+    res.send({ status: false });
+  }
 });
 
+app.get("/restaurants", async (req, res) => {
+  const citiesRef = db.collection("restaurants");
+  const snapshot = await citiesRef.get();
+  const arr = [];
+  await snapshot.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    arr.push(doc.data());
+  });
+  res.send(arr);
+});
 
-app.get('/restaurants',async (req,res)=>{
+app.post("/menus", async (req, res) => {
+  const citiesRef = db.collection("restaurants");
+  const target = await req.body.restaurant_name;
+  console.log(target);
+  const snapshot = await citiesRef.where("restaurant_name", "==", target).get();
+  const arr = [];
+  await snapshot.forEach((doc) => {
+    arr.push(doc.data());
+  });
+  console.log(arr[0]);
+  await res.send(arr[0]);
+});
+app.get("/home", (req, res) => {
+  console.log(req.session);
+});
+app.post("/signup", (req, res) => {
+  const dat = req.body.value;
+  console.log(dat);
+  res.send(200);
+  const cusRef = db.collection("customers");
 
-    const citiesRef = db.collection('restaurants');
-    const snapshot = await citiesRef.get();
-    const arr = []
-    await snapshot.forEach(doc => {
-      console.log(doc.id, '=>', doc.data());
-      arr.push( doc.data())
+  cusRef.doc(dat.email).set({
+    email: dat.email,
+    password: dat.password,
+    firstName: dat.firstName,
+    familyName: dat.familyName,
+    token: dat.token,
+    id: dat.id,
+  });
+});
+app.post("/login", async (req, res) => {
+  const cusRef = db.collection("customers");
+  const snapshot = await cusRef
+    .where("email", "==", req.body.email)
+    .where("password", "==", req.body.password)
+    .get();
+
+  if (snapshot.empty) {
+    res.send(400);
+  } else {
+    snapshot.forEach((doc) => {
+      req.session.email = doc.data().email;
+      req.session.password = doc.data().password;
+      req.session.id = doc.data().id;
+      req.session.login = true;
     });
+<<<<<<< HEAD
     res.send(arr)
     
 })
@@ -116,4 +169,12 @@ app.post('/login',async (req,res)=>{
 
 
 app.listen(5050,()=>{console.log('server has started')})
+=======
+    res.send({ username: req.session.email, login_status: true });
+  }
+});
+>>>>>>> 32ba34156d8df5aad4f143b6b1dc0e370f914991
 
+app.listen(5050, () => {
+  console.log("server has started");
+});

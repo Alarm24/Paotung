@@ -1,8 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -16,12 +14,31 @@ const style = {
   padding: "16px", // Add 'px' to the numeric value, assuming you meant padding
 };
 function MenuCard({ menus }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const payment = useNavigate();
+  const navigate = useNavigate();
+  const [dataUser, setDataUser] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5050/")
+      .then((res) => {
+        if (!res.data.status) {
+          navigate("/login");
+        } else {
+          setDataUser(res.data.value);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  //   const history = useNavigate();
-  useEffect(()=>{console.log(open)})
+  function handleOpen() {
+    payment("/payment");
+  }
+  const details = {
+    menu_name: menus.menu.menu_name,
+    price: menus.menu.menu_price,
+    id_restaurant: menus.id,
+  };
+
   return (
     <div>
       <div
@@ -33,29 +50,13 @@ function MenuCard({ menus }) {
           padding: "10px",
         }}
       >
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style} >
-            <button onClick={handleClose} >dfd</button>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a s
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-        </Modal>
         <img
-          src={menus.image_url}
-          alt={menus.menu_name}
+          src={menus.menu.image_url}
+          alt={menus.menu.menu_name}
           style={{ width: "100px", height: "100px" }}
         />
-        <div>{menus.menu_name}</div>
-        <div>{menus.menu_price}</div>
+        <div>{menus.menu.menu_name}</div>
+        <div>{menus.menu.menu_price}</div>
       </div>
     </div>
   );
