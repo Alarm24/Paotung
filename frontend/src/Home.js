@@ -5,6 +5,22 @@ import CheckSessionUser from "./CheckSessionUser";
 import { useUser } from "./UserContext";
 
 function Home() {
+  const [dataUser, setDataUser] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5050/")
+      .then((res) => {
+        if (!res.data.status) {
+          navigate("/login");
+        } else {
+          setDataUser(res.data.value);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  // Data User
+  console.log(dataUser);
+
   const navigate = useNavigate();
   function handleClickRestaurant() {
     navigate("/restaurants");

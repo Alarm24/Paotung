@@ -10,8 +10,8 @@ export default function CheckSessionUser() {
       .then((res) => {
         if (!res.data.status) {
           navigate("/login");
-        }else{
-          kk = res.data.value
+        } else {
+          return res.data.value;
         }
       })
       .catch((err) => console.log(err));
