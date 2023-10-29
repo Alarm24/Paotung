@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CheckSessionUser from "./CheckSessionUser";
+import RestaurantCard from "./Component/RestaurantCard";
 
 function Restaurants() {
   CheckSessionUser();
@@ -18,8 +19,8 @@ function Restaurants() {
   return (
     <>
       <div>
-        {restaurant.map((item) => (
-          <div key={item.id}>{item.restaurant_name}</div>
+        {restaurant.map((restaurant) => (
+          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
         ))}
       </div>
     </>

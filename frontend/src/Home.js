@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import CheckSessionUser from "./CheckSessionUser";
 import { useUser } from "./UserContext";
 
+function handleClickRestaurant() {
+  const navigate = useNavigate();
+}
+
 function Home() {
   const { user } = useUser();
   axios.defaults.withCredentials = true;
