@@ -49,11 +49,12 @@ function RestaurantDetail() {
   return (
     <>
       <h1>{id}</h1>
-      {menu.map((item) => (
-        <div key={item.menu_name}>
+      {menu.length?<>      {menu.map((item) => (
+        <div >
           <MenuCard menus={item} />
         </div>
-      ))}
+      ))}</>:<>hello2</>}
+
       <button onClick={handleClickRestaurant}>โรงอาหาร</button>
     </>
   );
