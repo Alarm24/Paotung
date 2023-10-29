@@ -2,19 +2,9 @@ const http = require('http');
 const express = require('express')
 const cors = require('cors')
 const session = require('express-session');
-const {createClient} = require('redis');
-const RedisStore = require("connect-redis").default
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const {db} = require('./db.js')
-//Configure redis client
-
-
-const redisClient = createClient({
-    url: 'redis://redis:6379'
-
-
-})
 
 var app = express();
 
@@ -36,17 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 
 
-
-redisClient.on('error', function (err) {
-    console.log('Could not establish a connection with redis. ' + err);
-});
-redisClient.on('connect', function (err) {
-    console.log('Connected to redis successfully');
-});
-
-let redstore = new RedisStore({ client: redisClient })
-//Configure session middleware
-
 app.use(session({
     secret: 'secret$%^134',
     resave: false,
@@ -58,17 +37,10 @@ app.use(session({
     }
 }))
 
+
 app.get('/',async(req,res)=>{
     if(req.session.login == true){
-        const cusRef = db.collection('customers')
-        const snapshot = await cusRef.where('username', '==', req.session.user).where('password', '==', req.session.pass).get();
-        let user = ''
-        let bulb = 0;
-        snapshot.forEach(doc => {
-            user = doc.data().username
-            bulb = doc.data().bulb;
-          });
-        res.send({'status':true,data:{user:user, bulb:bulb,login_status : true}}) 
+        res.send({'status':true}) 
     }else{
         res.send({'status':false})
     }
@@ -107,30 +79,29 @@ app.post('/menus',async (req,res)=>{
 app.get('/home',(req,res)=>{
     console.log(req.session)
 })
+app.post('/signup',(req,res)=>{
+    const cusRef = db.collection('customers')
+    cusRef.doc(req.body.email).set({email:req.body.email , password:req.body.password , firstName:req.body.firstName , familyName: req.body.familyName , token:req.body.token , id : req.body.id})
+})
 app.post('/login',async (req,res)=>{
 
-    console.log(req.body.user)
     const cusRef = db.collection('customers')
-    const snapshot = await cusRef.where('username', '==', req.body.user).where('password', '==', req.body.pass).get();
-    console.log(snapshot.empty)
+    const snapshot = await cusRef.where('email', '==', req.body.email).where('password', '==', req.body.password).get();
+
     if(snapshot.empty){
         res.send(400);
-
     }else{
         snapshot.forEach(doc => {
-            req.session.user = doc.data().username
-            req.session.pass = doc.data().password
-            req.session.bulb = doc.data().bulb;
+            req.session.email = doc.data().email
+            req.session.password = doc.data().password
             req.session.login = true
           });
-        res.send({username:req.session.user, bulb:req.session.bulb,login_status : true}) 
+        res.send({username:req.session.email, login_status : true}) 
     }
-
-
 
 })
 
 
 
-app.listen(5050,()=>{console.log('starting server ')})
+app.listen(5050,()=>{console.log('server has started')})
 

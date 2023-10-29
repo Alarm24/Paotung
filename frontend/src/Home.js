@@ -32,7 +32,7 @@ function Home() {
       <h1>{bulb}</h1>
       <button >โรงอหาร</button>
       <button>สุ่ม</button>
-
+     
     </div>
   );
 }

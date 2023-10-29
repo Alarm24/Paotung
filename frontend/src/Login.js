@@ -53,6 +53,15 @@ function Login() {
   return (
     <div>
       <button onClick={handleget}>getna</button>
+      <button onClick={
+        
+        axios.post('https://paotooong.thinc.in.th/v1/auth/register',{
+          "email": "admin@mateelang.co.th",
+          "password": "1234",
+          "firstName": "thanawarat",
+          "familyName": "jong"
+          })
+      } >send</button>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -72,6 +81,7 @@ function Login() {
       <Link to="/Signup">
         <button>SignUp</button>
       </Link>
+      
     </div>
   );
 }
