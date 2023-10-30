@@ -10,7 +10,7 @@ export default function Gacha() {
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
   const handleGacha = () => {
-    const randomNumber = Math.floor(Math.random() * 3) + 1; // Generates a number between 1 and 3
+    const randomNumber = Math.floor(Math.random() * 19) + 1;
     setResult(randomNumber);
   };
 
@@ -56,15 +56,14 @@ export default function Gacha() {
   console.log(dataUser);
 
   const renderResult = () => {
-    switch (result) {
-      case 1:
-        return "คุณได้รับ เกลือ 1 EA";
-      case 2:
-        return "คุณได้รับ Code : THINC";
-      case 3:
-        return "คุณได้รับ Code : ILOVECU";
-      default:
-        return null;
+    if (result === 12 || result === 13 || result === 14) {
+      return "คุณได้รับ Code : INFINIT";
+    } else if (result % 3 === 0) {
+      return "คุณได้รับ เกลือ 1 EA";
+    } else if (result % 3 === 1) {
+      return "คุณได้รับ Code : THINC";
+    } else if (result % 3 === 2) {
+      return "คุณได้รับ Code : ILOVECU";
     }
   };
 

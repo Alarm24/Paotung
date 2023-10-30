@@ -60,7 +60,13 @@ export default function Payment({ detail }) {
   };
 
   const applyDiscount = () => {
-    if (discountCode === "THINC") {
+    if (discountCode === "INFINIT") {
+      if (totalPrice <= 100000000) {
+        setTotalPrice(0);
+      } else {
+        setDiscount(100000000);
+      }
+    } else if (discountCode === "THINC") {
       if (totalPrice <= 40) {
         setTotalPrice(0);
       } else {
