@@ -36,3 +36,83 @@
     transform: rotate(360deg);
   }
 }
+header {
+  text-align: center;
+  width: 100vw;
+  font-size: 64px;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #dea517;
+  margin: 0px;
+}
+body {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(238, 192, 75, 1) 0%,
+    rgba(243, 144, 200, 1) 100%
+  );
+}
+#circle1 {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  margin: 4em;
+  border-color: #e25789;
+  border-style: solid;
+  border-width: 5px;
+  align-items: center;
+  justify-content: center;
+}
+#Bulb1 {
+  position: absolute;
+  height: 193px;
+  display: flex;
+}
+#BulbText {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 70px;
+}
+#BulbAmount {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#RandomButton {
+  margin: 10px;
+  width: 300px;
+  height: 150px;
+  border-radius: 50px;
+  background-color: #fad67a;
+  margin: 25px;
+  text-align: center;
+  font-size: 64px;
+  font-weight: bold;
+  color: white;
+}
+
+#TextBelowRandom {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#RandomCost {
+  position: absolute;
+  font-size: 32px;
+  margin-left: 40px;
+}
+#Bulb2 {
+  position: absolute;
+  height: 30px;
+  width: 25px;
+  margin-right: 40px;
+}
