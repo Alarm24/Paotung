@@ -82,7 +82,7 @@ function Home() {
         <div>
           <p className="Text">มารับตอน ...</p>
           <div id="Box1">
-            <p id="Time">{time}</p>
+            <p id="Time">00:00</p>
             <div id="DetailRestAndDish">
               <p>@โรงอาหาร...</p>
               <p>อาหารที่ซื้อ</p>
