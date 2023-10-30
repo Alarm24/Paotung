@@ -73,7 +73,11 @@ app.get("/restaurants", async (req, res) => {
   });
   res.send(arr);
 });
-
+app.get('/logout',(req,res)=>{
+  console.log(req.session);
+  console.log(req.session.destroy())
+  res.send(200)
+})
 app.post("/menus", async (req, res) => {
   const citiesRef = db.collection("restaurants");
   const target = await req.body.restaurant_name;

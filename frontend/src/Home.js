@@ -14,12 +14,24 @@ function Home() {
   const [time, setTime] = useState("00:00");
   const [timestamp, setTimestmap] = useState("00:00");
   useEffect(() => {
+    console.log('here is time stanmp' + timestamp)
+
     axios
       .get("http://localhost:5050/")
       .then((res) => {
         if (!res.data.status) {
           navigate("/login");
         } else {
+          const date = new Date(res.data.value.menu_hist[res.data.value.menu_hist.length-1].time);
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "Etc/GMT-7",
+          });
+          console.log(res.data)
+          setTimestmap(formattedTime);
+          console.log(formattedTime)
+          setName(res.data.value.firstName)
           setDataUser(res.data.value);
           setToken(res.data.value.token);
           setHist(res.data.value.menu_hist);
@@ -27,6 +39,15 @@ function Home() {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handlelogout = ()=>{
+    axios
+    .get("http://localhost:5050/logout")
+    .then((res) => {
+      navigate('/login')
+    })
+    .catch((err) => console.log(err));
+  }
   console.log(token);
   axios
     .get("https://paotooong.thinc.in.th/v1/auth/me", {
@@ -40,16 +61,18 @@ function Home() {
     })
     .catch((err) => console.log(err));
   // Data User
-  console.log(dataUser);
+  console.log(dataUser.menu_hist);
   console.log(hist[1]);
 
   useEffect(() => {
+    console.log('here is time stanmp' + timestamp)
     const date = new Date(timestamp);
     const formattedTime = date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       timeZone: "Etc/GMT+7",
     });
+    
     setTime(formattedTime);
   }, []);
 
@@ -67,7 +90,9 @@ function Home() {
   return (
     <div>
       <body>
-        <p id="HomepageHeader">Bulblebee</p>
+        <div id = "HomepageHeader">      <button style={{width:'100px' , height:'100px'}} onClick={handlelogout}>LOGOUT</button>
+</div>
+        <p id="HomepageHeader">สวัสดีครับคุณ<br></br>{name}</p>
 
         <div id="circle1">
           <img
@@ -82,20 +107,22 @@ function Home() {
         <div>
           <p className="Text">มารับตอน ...</p>
           <div id="Box1">
-            <p id="Time">00:00</p>
+            <p id="Time" >{timestamp}</p>
             <div id="DetailRestAndDish">
-              <p>@โรงอาหาร...</p>
-              <p>อาหารที่ซื้อ</p>
+              {hist.length?<>   <p>@โรงอาหาร...{hist[hist.length-1].restaurant_name}</p>
+              <p>อาหารที่ซื้อ: {hist[hist.length-1].menu_name}</p></>:<></>}
+
             </div>
           </div>
         </div>
 
         <div>
           <p className="Text">ประวัติการซื้อ</p>
-          <div id="Box2">
-            <div className="FoodHistory">อาหาร</div>
-            <div className="FoodHistory">อาหาร</div>
-            <div className="FoodHistory">อาหาร</div>
+          <div id="Box2" style={{display:'flex' , wordWrap:'break-word',fontSize:'15px'}}>
+            {hist.length>4?<>    <div className="FoodHistory">{'menu:'+hist[hist.length-2].menu_name +'\n'+'restaurant:'+ hist[hist.length-2].restaurant_name}</div>
+            <div className="FoodHistory">{'menu:'+hist[hist.length-3].menu_name +'\n'+'restaurant:'+ hist[hist.length-3].restaurant_name}</div>
+            <div className="FoodHistory">{'menu:'+hist[hist.length-4].menu_name +'\n'+'restaurant:'+ hist[hist.length-4].restaurant_name}</div></>:<></>}
+        
           </div>
         </div>
       </body>

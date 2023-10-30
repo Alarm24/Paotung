@@ -1,5 +1,5 @@
 // src/components/Login.js
-import './Login.css'
+import './login.css'
 import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
