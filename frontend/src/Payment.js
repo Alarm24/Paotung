@@ -5,10 +5,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function Payment({ detail }) {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
+  const home = useNavigate();
   const [money, setMoney] = useState(10000);
   const [dataUser, setDataUser] = useState("");
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [discountCode, setDiscountCode] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:5050/")
@@ -52,6 +55,28 @@ export default function Payment({ detail }) {
     setTime(updatedTime);
   };
 
+  const handleDiscountCodeChange = (event) => {
+    setDiscountCode(event.target.value);
+  };
+
+  const applyDiscount = () => {
+    if (discountCode === "THINC") {
+      if (totalPrice <= 40) {
+        setTotalPrice(0);
+      } else {
+        setDiscount(40);
+      }
+    } else if (discountCode === "ILOVECU") {
+      if (totalPrice <= 20) {
+        setTotalPrice(0);
+      } else {
+        setDiscount(20);
+      }
+    } else {
+      setDiscount(0);
+    }
+  };
+
   const formatTime = (date) => {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -63,7 +88,7 @@ export default function Payment({ detail }) {
       .post(
         `https://paotooong.thinc.in.th/v1/wallet/pay/{${id_restaurant}}`,
         {
-          amount: totalPrice,
+          amount: totalPrice - discount,
         },
         {
           headers: {
@@ -84,12 +109,20 @@ export default function Payment({ detail }) {
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+    home(`/restaurants/${details.restaurant_name}`);
   };
   return (
     <div>
       <h1>ชำระเงิน</h1>
       <span>
-        Codeส่วนลด : <input placeholder="Code ส่วนลด"></input>
+        Codeส่วนลด :{" "}
+        <input
+          type="text"
+          placeholder="Code ส่วนลด"
+          value={discountCode}
+          onChange={handleDiscountCodeChange}
+        />
+        <button onClick={applyDiscount}>Apply Discount</button>
       </span>
       <div>
         จำนวน{" "}
@@ -98,7 +131,7 @@ export default function Payment({ detail }) {
           onChange={(e) =>
             setAmount(
               Number(e.target.value),
-              setTotalPrice(Number(e.target.value * price))
+              setTotalPrice(Number(e.target.value * price) - discount)
             )
           }
         >
@@ -108,8 +141,8 @@ export default function Payment({ detail }) {
             </option>
           ))}
         </select>
-        <div onChange={(e) => setTotalPrice(Number(e.target.value))}>
-          ราคารวม : {totalPrice}
+        <div onChange={(e) => setTotalPrice(Number(e.target.value) - discount)}>
+          ราคารวม : {totalPrice - discount}
         </div>
         <div>
           เลือกเวลาในการรับอาหาร :{" "}

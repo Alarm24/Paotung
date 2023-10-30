@@ -9,6 +9,7 @@ import RestaurantDetail from "./RestaurantDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
 import Payment from "./Payment";
+import Gacha from "./Gacha";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/restaurants/:id" element={<RestaurantDetail />} />
           <Route path="/Testpayment" element={<Testpayment />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/gacha" element={<Gacha />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

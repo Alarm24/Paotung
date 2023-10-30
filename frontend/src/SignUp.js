@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import "./register.css";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -63,33 +64,45 @@ function SignUp() {
 
   return (
     <div>
-      <h2>SignUp</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 id="RegisterHeader">SignUp</h2>
+      {/* <Link to="/testpayment">
+        <button>testpay</button>
+      </Link> */}
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <input
-          type="text"
+          className="Input"
+          type="Email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="password"
+          className="Input"
+          type="Password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
+          className="Input"
           type="firstname"
           placeholder="firstname"
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
         />
         <input
+          className="Input"
           type="lastname"
           placeholder="lastname"
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
         />
-        <button type="submit">SignUp</button>
+        <button type="submit" id="Register">
+          SignUp
+        </button>
       </form>
     </div>
   );

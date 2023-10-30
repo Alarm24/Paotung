@@ -5,7 +5,7 @@ const session = require("express-session");
 var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { db } = require("./db.js");
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 const FieldValue = admin.firestore.FieldValue;
 
 var app = express();
@@ -54,7 +54,7 @@ app.get("/", async (req, res) => {
         email: doc.data().email,
         firstName: doc.data().firstName,
         token: doc.data().token,
-        menu_hist: doc.dat().menu_hist
+        menu_hist: doc.data().menu_hist,
       };
     });
     res.send({ status: true, value: goingsend });
@@ -102,7 +102,7 @@ app.post("/signup", (req, res) => {
     familyName: dat.familyName,
     token: dat.token,
     id: dat.id,
-    menu_hist:[]
+    menu_hist: [],
   });
 });
 app.post("/login", async (req, res) => {

@@ -30,36 +30,45 @@ function Login() {
         navigate("/");
       })
       .catch((err) => {
-        window.alert('wrong username or answer')
+        window.alert("wrong username or answer");
         console.log(err);
         navigate("/login");
       });
   };
 
   return (
-    <div className='logincontrol'>
-
-<img id="PaotungLogo" src={require('./image/bulb.png')} /> 
-      <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:'2px'}}>
-      <label>ชื่อผู้ใช้</label>
-        <input className="Input"  required
+    <div className="logincontrol">
+      <img id="PaotungLogo" src={require("./image/bulb.png")} />
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+      >
+        <label>ชื่อผู้ใช้</label>
+        <input
+          className="Input"
+          required
           type="text"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-                <label>รหัสผ่าน</label>
+        <label>รหัสผ่าน</label>
         <input
-          className="Input" required
+          className="Input"
+          required
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" id = "LoginButton">Login</button>
+        <button type="submit" id="LoginButton">
+          Login
+        </button>
       </form>
       <Link to="/Signup">
-        <button id="RegisterButton" style={{marginBottom:'200px'}}>SignUp</button>
+        <button id="RegisterButton" style={{ marginBottom: "200px" }}>
+          SignUp
+        </button>
       </Link>
     </div>
   );
