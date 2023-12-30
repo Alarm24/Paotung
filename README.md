@@ -12,4 +12,8 @@
 ## Tools
 - Frontend : React.js , MUI
 - Backend : node.js
-- Database : firebase 
+- Database : firebase
+
+## Ten-Day Project of Thinc Club
+This project was completed as part of the ten-day project organized by Thinc Club, showcasing rapid development and innovative solutions.
+
